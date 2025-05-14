@@ -1,19 +1,21 @@
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as io;
 import 'package:shelf_router/shelf_router.dart';
-import '../routes/casal.dart';
 
 // rotas do software
 import '../routes/cadastro.dart';
 import '../routes/login.dart';
+import '../routes/casal.dart';
+import '../routes/missao.dart';
 
 // gerenciador das rotas
 void main() async {
   final app = Router();
 
-  app.mount('/cadastro', cadastroRoutes.call);
-  app.mount('/login', loginRoutes.call);
-  app.mount('/criar-casal', casalRoutes); // A linha que monta a rota
+  app.mount('/cadastro/', (request) => cadastroRoutes(request));
+  app.mount('/login/', (request) => loginRoutes(request));
+  app.mount('/missao/', (request) => missaoRoutes(request));
+  app.mount('/casal/', casalRoutes);
 
   final handler = const Pipeline()
       .addMiddleware(logRequests())

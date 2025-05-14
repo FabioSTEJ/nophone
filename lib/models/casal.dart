@@ -1,29 +1,29 @@
 class Casal {
   final String id;
-  final String usuarioA;
-  final String usuarioB;
-  bool confirmado;
+  final int usuario1Id;
+  final int usuario2Id;
+  final String? codigoConvite;
 
   Casal({
     required this.id,
-    required this.usuarioA,
-    required this.usuarioB,
-    this.confirmado = false,
+    required this.usuario1Id,
+    required this.usuario2Id,
+    this.codigoConvite,
   });
 
   Map<String, dynamic> toJson() => {
     'id': id,
-    'usuarioA': usuarioA,
-    'usuarioB': usuarioB,
-    'confirmado': confirmado,
+    'usuario1_id': usuario1Id,
+    'usuario2_id': usuario2Id,
+    'codigo_convite': codigoConvite,
   };
 
   static Casal fromJson(Map<String, dynamic> json) {
     return Casal(
       id: json['id'],
-      usuarioA: json['usuarioA'],
-      usuarioB: json['usuarioB'],
-      confirmado: json['confirmado'] ?? false,
+      usuario1Id: json['usuario1_id'],
+      usuario2Id: json['usuario2_id'],
+      codigoConvite: json['codigo_convite'],
     );
   }
 }
