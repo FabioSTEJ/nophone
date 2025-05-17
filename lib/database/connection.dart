@@ -1,15 +1,16 @@
-// import 'package:postgres/postgres.dart';
+//import 'package:postgres/postgres.dart';
 
-//Future<PostgreSQLConnection> connectToDatabase() async {
-//  final connection = PostgreSQLConnection(
-//    'localhost', 
-//    5432, 
-//    'nome_do_banco', 
-//    username: 'usuario',
-//    password: 'senha', 
-//  );
+//final connection = PostgreSQLConnection(
+  //'localhost', // ou o IP do seu banco
+  //5432, // a porta do PostgreSQL
+  //'seu_banco_de_dados',
+  //username: 'seu_usuario',
+  //password: 'sua_senha',
+//);
 
-//  await connection.open();
-//  print('Conexão com o banco de dados estabelecida');
-//  return connection;
+//Future<void> connectDatabase() async {
+ // await connection.open();
 //}
+
+
+// nao está em uso no momento, vai ser usado posterior quando o banco por criado

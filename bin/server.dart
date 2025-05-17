@@ -12,10 +12,10 @@ import '../routes/missao.dart';
 void main() async {
   final app = Router();
 
-  app.mount('/cadastro/', (request) => cadastroRoutes(request));
-  app.mount('/login/', (request) => loginRoutes(request));
-  app.mount('/missao/', (request) => missaoRoutes(request));
-  app.mount('/casal/', casalRoutes);
+  app.mount('/cadastro/', cadastroRoutes);
+  app.mount('/login', loginRoutes);
+  app.mount('/missao', missaoRoutes);
+  app.mount('/casal', casalRoutes); // já estava certo
 
   final handler = const Pipeline()
       .addMiddleware(logRequests())
