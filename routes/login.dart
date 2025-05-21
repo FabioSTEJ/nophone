@@ -7,6 +7,7 @@ import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:projeto_backend/models/usuario.dart';
 import 'package:projeto_backend/database/database.dart'; // <== IMPORTAR AQUI
 import 'package:collection/collection.dart';
+import 'package:projeto_backend/config/config.dart';
 
 final loginRoutes =
     Router()
@@ -54,7 +55,7 @@ final loginRoutes =
 
           final jwt = JWT({'email': usuario.email, 'id': usuario.id});
           final token = jwt.sign(
-            SecretKey('segredo_super_secreto'),
+            SecretKey(jwtSecretKey),
             expiresIn: const Duration(hours: 2),
           );
 

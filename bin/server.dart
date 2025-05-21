@@ -9,27 +9,37 @@ import '../routes/cadastro.dart';
 import '../routes/login.dart';
 import '../routes/casal.dart';
 import '../routes/missao.dart';
+import '../routes/missoes.dart';
+import '../routes/convite.dart';
+import 'package:projeto_backend/config/config.dart';
 
 void main() async {
-  final app = Router();
+  // Rotas públicas
+  final publicRouter =
+      Router()
+        ..mount('/cadastro/', cadastroRoutes.call)
+        ..mount('/login/', loginRoutes.call)
+        ..mount('/missoes/', missoesRoutes);
 
-  // Monta as rotas
-  app.mount('/cadastro/', cadastroRoutes);
-  app.mount('/login/', loginRoutes);
-  app.mount('/missao/', missaoRoutes);
-  app.mount('/casal/', casalRoutes);
+  // Rotas protegidas (com middleware)
+  final privateRouter =
+      Router()
+        ..mount('/missao/', missaoRoutes)
+        ..mount('/casal/', casalRoutes.call)
+        ..mount('/convite/', conviteRoutes);
 
-  // Chave secreta do JWT (pode colocar em config/env depois)
-  const secretKey = 'segredo_super_secreto';
-
-  // Middleware de autenticação com exceções para login e cadastro
-  final authMiddleware = checkAuthMiddleware(secretKey);
-
-  // Pipeline com logging e middleware de autenticação
-  final handler = Pipeline()
+  // Pipeline com log
+  final publicHandler = Pipeline()
       .addMiddleware(logRequests())
-      .addMiddleware(authMiddleware)
-      .addHandler(app.call);
+      .addHandler(publicRouter);
+
+  final privateHandler = Pipeline()
+      .addMiddleware(logRequests())
+      .addMiddleware(checkAuthMiddleware())
+      .addHandler(privateRouter);
+
+  // Junta os dois com Cascade
+  final handler = Cascade().add(publicHandler).add(privateHandler).handler;
 
   final server = await io.serve(handler, 'localhost', 8080);
   print('Servidor rodando em http://${server.address.host}:${server.port}');

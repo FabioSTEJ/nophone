@@ -1,7 +1,10 @@
+// lib/middleware/auth_middleware.dart
+
 import 'package:shelf/shelf.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
+import '../config/config.dart';
 
-Middleware checkAuthMiddleware(String secretKey) {
+Middleware checkAuthMiddleware() {
   return (Handler innerHandler) {
     return (Request request) async {
       print('Requisição para: ${request.url.path}');
@@ -26,10 +29,11 @@ Middleware checkAuthMiddleware(String secretKey) {
       final token = authHeader.substring(7); // remove 'Bearer '
 
       try {
-        final jwt = JWT.verify(token, SecretKey(secretKey));
+        final jwt = JWT.verify(token, SecretKey(jwtSecretKey));
         final updatedRequest = request.change(context: {'jwt': jwt.payload});
         return await innerHandler(updatedRequest);
       } catch (e) {
+        print('Erro ao validar token JWT: $e');
         return Response(
           401,
           body: 'Token inválido ou expirado',
