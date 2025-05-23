@@ -1,3 +1,5 @@
+// models/casal.dart
+
 class Casal {
   final String id;
   final int usuario1Id;

@@ -1,7 +1,9 @@
+// models/convite_casal.dart
+
 class ConviteCasal {
   final String id;
-  final int usuarioRemetenteId;
-  final int usuarioDestinatarioId;
+  final String usuarioRemetenteId;
+  final String usuarioDestinatarioId;
   final String codigoConvite;
   String status; // 'pendente', 'aceito', 'recusado'
   final DateTime dataCriacao;

@@ -33,7 +33,7 @@ final List<Missao> missoesPadrao = [
   ),
 ];
 
-Response getMissoesHandler(Request request) {
+Future<Response> getMissoesHandler(Request request) async {
   final missoesJson = missoesPadrao.map((m) => m.toJson()).toList();
   return Response.ok(
     jsonEncode({'missoes': missoesJson}),

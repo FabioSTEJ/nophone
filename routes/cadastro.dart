@@ -3,8 +3,11 @@ import 'dart:convert';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:projeto_backend/models/usuario.dart';
-import 'package:projeto_backend/database/database.dart'; // <== IMPORTAR AQUI
+import 'package:projeto_backend/database/database.dart';
 import 'package:bcrypt/bcrypt.dart';
+import 'package:uuid/uuid.dart'; // ✅ Adicionado para gerar UUID
+
+final uuid = Uuid(); // ✅ Instância do gerador UUID
 
 final cadastroRoutes =
     Router()..post('/', (Request req) async {
@@ -39,7 +42,6 @@ final cadastroRoutes =
           );
         }
 
-        // Verifica se já existe
         final usuarioExiste = usuarios.any((u) => u.email == email);
         if (usuarioExiste) {
           return Response(
@@ -52,7 +54,7 @@ final cadastroRoutes =
         final senhaHash = BCrypt.hashpw(senha, BCrypt.gensalt());
 
         final novoUsuario = Usuario(
-          id: 'simulado-id-uuid', // pode trocar depois por UUID real
+          id: uuid.v4(), // ✅ ID único gerado aqui
           email: email,
           senha: senhaHash,
         );
@@ -74,7 +76,6 @@ final cadastroRoutes =
       }
     });
 
-// Função para validar email
 bool _isEmailValido(String email) {
   final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
   return emailRegex.hasMatch(email);
